@@ -99,9 +99,9 @@ export function App() {
     }
 
     const CompiledContractArtifact = require(`../abi/ERC20.json`);
-    const SUDT_PROXY_CONTRACT_ADDRESS = "0xe9a2958B16DDa1602248CC2dCDC29109CCcc250d";
+    const SUDT_PROXY_CONTRACT_ADDRESS = "0xD7B06C4f16cf31Fbc88bb68E660ca3D37D1BCc1d";
 
-    async function getSUDTBalance(account: string, web3: Web3, polyjuiceAddress:string) {
+    async function getSUDTBalance(account: string, web3: Web3, polyjuiceAddress: string) {
         console.log(polyjuiceAddress);
         const contract = new web3.eth.Contract(CompiledContractArtifact.abi, SUDT_PROXY_CONTRACT_ADDRESS);
         const balance = await contract.methods.balanceOf(polyjuiceAddress).call({
@@ -218,6 +218,7 @@ export function App() {
             Deploy transaction hash: <b>{deployTxHash || '-'}</b>
             <br />
             <br />
+
             <button onClick={deployContract} disabled={!l2Balance}>
                 Deploy contract
             </button>
@@ -233,8 +234,21 @@ export function App() {
                 Use existing contract
             </button>
             <br />
-            <hr />    
-        
+            <hr />
+            <h3>Transfer assets from the Ethereum blockchain via Force Bridge</h3>
+            <ul>
+                <div style={{wordWrap:"break-word"}}>Your Layer 2 Deposit Address on Layer 1: <b>{layer2Address}</b><br /><br /></div>
+                <li>Use the <a href="https://force-bridge-test.ckbapp.dev/bridge/Ethereum/Nervos">Force bridge website</a> to transfer tokens from Ethereum to Nervos layer 2.<br /></li>
+                <li>Select the Ethereum asset and amount to transfer across the bridge. In the box marked "Recipient", you specify the Layer 2 Deposit Address on Layer 1 mentioned above 👆<br /></li>
+                <li>When you have finished the reviewing all the details and after putting the correct values, click the <i>Bridge</i> button. You will be asked to sign the transaction using MetaMask. There will be a small fee for the transfer, and this will be calculated automatically.<br /></li>
+            </ul>
+            <br />
+            <div style={{textAlign:"center"}}>
+                Your SUDT balance: <b>{sudtBalance}</b><br />
+            </div>
+            <br />
+            <hr />
+
             <h2>Create NFT</h2>
             <input
                 type="string"
@@ -247,18 +261,16 @@ export function App() {
             </button>
             <br />
             <div>
-                <h2 style={{textAlign:"center"}}>Your NFTs</h2>
+                <h2 style={{ textAlign: "center" }}>Your NFTs</h2>
                 {listNFT.map(_uri => (
                     <img
                         key={_uri}
                         src={_uri}
-                        style={{ width: 200, height: 300, borderRadius:"5px", margin:"10px" }}
+                        style={{ width: 200, height: 300, borderRadius: "5px", margin: "10px" }}
                     />
                 ))}
             </div>
-            <br />
-            <br />
-            <br />
+            
             <br />
             <hr />
             The contract is deployed on Nervos Layer 2 - Godwoken + Polyjuice. After each
